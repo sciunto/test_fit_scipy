@@ -33,8 +33,9 @@ def test_curvefit(DataSet, start):
         start_param.append(pval1)
     try:
         popt, pcov, infodict, errmsg, ier = curve_fit(func, x, y, p0=start_param, full_output=True)
-
-
+    except RuntimeError as e:
+        print(e)
+    else:
         residual = infodict['fvec']
         chisqr = (residual**2).sum()
         ndata = len(residual)
@@ -44,17 +45,11 @@ def test_curvefit(DataSet, start):
         print('Optimized -- Certified')
         for el in zip(popt, cval):
             print( str(el[0]) + '   ' + str(el[1]))
-        #print(popt)
 
-        #print(cval)
-        #print(residual)
         errors =  np.array(popt) - np.array(cval)
         rel_errors = errors / np.array(cval)
         print('Highest relative error: '),
         print(np.max(rel_errors)) 
-
-    except RuntimeError as e:
-        print(e)
 
 
 if __name__ == '__main__':

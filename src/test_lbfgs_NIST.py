@@ -35,6 +35,9 @@ def test_lbfgs(DataSet, start):
         start_param.append(pval1)
     try:
         out = curve_fit2(func, x, y, p0=start_param, full_output=True)
+    except RuntimeError as e:
+        print(e)
+    else:
         popt = out[0]
         nvarys = len(popt)
 
@@ -46,9 +49,6 @@ def test_lbfgs(DataSet, start):
         rel_errors = errors / np.array(cval)
         print('Highest relative error: '),
         print(np.max(rel_errors)) 
-
-    except RuntimeError as e:
-        print(e)
 
 
 if __name__ == '__main__':
